@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!-- 声明项目描述符遵循哪一个POM模型版本。模型本身的版本很少改变，虽然如此，但它仍然是必不可少的，
+     这是为了当Maven引入了新的特性或者其他模型变更的时候，确保稳定性。 -->
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.0.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <!-- 项目的全球唯一标识符，通常使用全限定的包名区分该项目和其他项目。并且构建时生成的路径也是由此生成，
+        如com.myCompany.app生成的相对路径为：/com/myCompany/app -->
+    <groupId>com.suzhou.love.autumn</groupId>
+    <!-- 构件的标识符，它和group ID一起唯一标识一个构件。换句话说，你不能有两个不同的项目拥有同样的artifact ID
+        和groupID；在某个特定的group ID下，artifact ID也必须是唯一的。构件是项目产生的或使用的一个东西，Maven
+        为项目产生的构件包括：JARs，源码，二进制发布和WARs等。 -->
+    <artifactId>cloudmall</artifactId>
+    <!-- 项目当前版本，格式为:主版本.次版本.增量版本-限定版本号 -->
+    <version>0.0.1-SNAPSHOT</version>
+    <!-- 项目的名称, Maven产生的文档用 -->
+    <name>cloudmall</name>
+    <!-- 项目的详细描述, Maven 产生的文档用。 当这个元素能够用HTML格式描述时（例如，CDATA中的文本会被解析器忽略，
+    就可以包含HTML标签）， 不鼓励使用纯文本描述。如果你需要修改产生的web站点的索引页面，你应该修改你自己的
+    索引页文件，而不是调整这里的文档。 -->
+    <description>寒江孤影,江湖故人,相逢何必曾相识 - 云商城 - cloudMall</description>
+    <packaging>pom</packaging>
+
+    <!-- 模块（有时称作子项目） 被构建成项目的一部分。列出的每个模块元素是指向该模块的目录的相对路径 -->
+    <modules>
+        <!--子项目相对路径-->
+        <module>cloud-mall-admin</module>
+        <module>cloud-mall-common</module>
+        <module>cloud-mall-mbg</module>
+        <module>cloud-mall-security</module>
+    </modules>
+
+    <!-- 以值替代名称，Properties可以在整个POM中使用，也可以作为触发条件
+（见settings.xml配置文件里activation元素的说明）。格式是<name>value</name>。 -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+        <skipTests>true</skipTests>
+        <docker.host>http://192.168.3.101:2375</docker.host>
+        <docker.maven.plugin.version>1.1.0</docker.maven.plugin.version>
+        <pagehelper-starter.version>1.2.13</pagehelper-starter.version>
+        <pagehelper.version>5.1.11</pagehelper.version>
+        <druid.version>1.1.22</druid.version>
+        <hutool.version>5.3.5</hutool.version>
+        <swagger2.version>2.9.2</swagger2.version>
+        <mybatis-generator.version>1.4.0</mybatis-generator.version>
+        <mybatis.version>3.5.4</mybatis.version>
+        <mysql-connector.version>8.0.20</mysql-connector.version>
+        <spring-data-commons.version>2.3.0.RELEASE</spring-data-commons.version>
+        <jjwt.version>0.9.1</jjwt.version>
+        <aliyun-oss.version>3.9.1</aliyun-oss.version>
+        <logstash-logback.version>6.3</logstash-logback.version>
+        <minio.version>7.0.2</minio.version>
+        <validation-version>2.0.1.Final</validation-version>
+        <cloud-mall-common.version>0.0.1-SNAPSHOT</cloud-mall-common.version>
+        <cloud-mall-mbg.version>0.0.1-SNAPSHOT</cloud-mall-mbg.version>
+        <cloud-mall-security.version>0.0.1-SNAPSHOT</cloud-mall-security.version>
+    </properties>
+
+    <!--
+           该元素描述了项目相关的所有依赖。
+           这些依赖组成了项目构建过程中的一个个环节。
+           它们自动从项目定义的仓库中下载。要获取更多信息，请看项目依赖机制。
+        -->
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <!--
+                  使用：import scope 依赖前提条件：
+                  1、maven2.9以上版本
+                  2、将dependency分类，每一类建立单独的pom文件
+                  3、在需要使用到这些依赖的子model中，使用dependencyManagement管理依赖，并import scope依赖
+                  4、注意：scope=import只能用在dependencyManagement里面,且仅用于type=pom的dependency
+              -->
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <!--mall通用模块-->
+            <dependency>
+                <groupId>com.suzhou.love.autumn</groupId>
+                <artifactId>cloud-mall-common</artifactId>
+                <version>${cloud-mall-common.version}</version>
+            </dependency>
+            <!--mall中MBG生成模块-->
+            <dependency>
+                <groupId>com.suzhou.love.autumn</groupId>
+                <artifactId>cloud-mall-mbg</artifactId>
+                <version>${cloud-mall-mbg.version}</version>
+            </dependency>
+            <!--mall安全模块-->
+            <dependency>
+                <groupId>com.suzhou.love.autumn.security</groupId>
+                <artifactId>cloud-mall-security</artifactId>
+                <version>${cloud-mall-security.version}</version>
+            </dependency>
+            <!--MyBatis分页插件starter-->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper-starter.version}</version>
+            </dependency>
+            <!--MyBatis分页插件-->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper</artifactId>
+                <version>${pagehelper.version}</version>
+            </dependency>
+            <!--集成druid连接池-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+            <!--Hutool Java工具包-->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <!--Swagger-UI API文档生产工具-->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger2.version}</version>
+            </dependency>
+            <!-- MyBatis 生成器 -->
+            <dependency>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-core</artifactId>
+                <version>${mybatis-generator.version}</version>
+            </dependency>
+            <!-- MyBatis-->
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>${mybatis.version}</version>
+            </dependency>
+            <!--Mysql数据库驱动-->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector.version}</version>
+            </dependency>
+            <!--SpringData工具包-->
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-commons</artifactId>
+                <version>${spring-data-commons.version}</version>
+            </dependency>
+            <!--JWT(Json Web Token)登录支持-->
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <!-- 阿里云OSS -->
+            <dependency>
+                <groupId>com.aliyun.oss</groupId>
+                <artifactId>aliyun-sdk-oss</artifactId>
+                <version>${aliyun-oss.version}</version>
+            </dependency>
+            <!--集成logstash-->
+            <dependency>
+                <groupId>net.logstash.logback</groupId>
+                <artifactId>logstash-logback-encoder</artifactId>
+                <version>${logstash-logback.version}</version>
+            </dependency>
+            <!--MinIO JAVA SDK-->
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.version}</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${validation-version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
